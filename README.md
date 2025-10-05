@@ -1,10 +1,10 @@
 # NeuralKnight-Chess ♟️
 
-A deep learning chess AI that learns to play chess by training on elite-level games from Lichess. The project features a convolutional neural network (CNN) that predicts moves based on board positions, along with an interactive GUI for playing against the AI.
+A chess AI built with a convolutional neural network that learns move patterns from elite-level Lichess games. Includes a simple GUI for playing against the trained model.
 
 ## 🎯 Overview
 
-NeuralKnight-Chess is a personal project that demonstrates how neural networks can learn chess strategy from high-level human games. For now the model is trained on hundreds of thousands of games from elite Lichess players and uses a CNN architecture to predict the best move given any board position.
+This is a learning project exploring how neural networks can learn chess through supervised learning on game data. The model uses a basic CNN architecture to predict moves based on board positions, trained on games from high-rated Lichess players.
 
 ## 🏗️ Architecture
 
@@ -14,47 +14,43 @@ NeuralKnight-Chess is a personal project that demonstrates how neural networks c
   - Channel 12: Legal move destinations
   - Channel 13: Current turn (1 for white, 0 for black)
 - **Architecture**: 
-  - Conv2D (14→64 channels, 3×3 kernel, ReLU)
-  - Conv2D (64→128 channels, 3×3 kernel, ReLU)
+  - Conv2D layer (14→64 channels, 3×3 kernel, ReLU)
+  - Conv2D layer (64→128 channels, 3×3 kernel, ReLU)
   - Flatten
-  - Fully Connected (8192→256, ReLU)
-  - Fully Connected (256→num_moves)
-- **Output**: Probability distribution over all possible UCI moves
+  - Fully connected layer (8192→256, ReLU)
+  - Output layer (256→num_moves)
+- **Output**: Logits for all possible UCI moves seen in training
 
-### Training Details
+### Training Setup
 - **Loss Function**: Cross-Entropy Loss
-- **Optimizer**: Adam (learning rate: 0.0001)
+- **Optimizer**: Adam (lr=0.0001)
 - **Batch Size**: 64
-- **Gradient Clipping**: Max norm of 1.0
-- **Hardware**: CUDA-enabled GPU training
+- **Gradient Clipping**: Max norm 1.0
 
 ## 📁 Project Structure
 
 ```
 NeuralKnight-Chess/
-├── data_preprocessing.py    # PGN to numpy array conversion
-├── torch_dataset.py         # PyTorch Dataset class
-├── torch_model.py           # Neural network model definition
-├── train.py                 # Model training script
-├── predict.py               # Move prediction inference
-├── play_chess_gui.py        # Interactive Pygame GUI
-├── requirements.txt         # Python dependencies
-├── raw_training_data/       # PGN files from Lichess elite games
-│   └── lichess_elite_*.pgn
-├── cleaned_data/            # Preprocessed numpy arrays
+├── data_preprocessing.py    # Converts PGN files to numpy arrays
+├── torch_dataset.py         # PyTorch Dataset wrapper
+├── torch_model.py           # CNN model definition
+├── train.py                 # Training script
+├── predict.py               # Move prediction with trained model
+├── play_chess_gui.py        # Pygame GUI for playing against AI
+├── requirements.txt         # Dependencies
+├── raw_training_data/       # PGN files (not included in repo)
+├── cleaned_data/            # Preprocessed training data
 │   ├── x_data.npy          # Board states
 │   ├── y_data.npy          # Move labels
-│   └── mapping.npy         # UCI move to index mapping
-└── models/                  # Trained model weights
-    ├── 10_epochs_model.pth
-    └── model1_heavy_move_to_idx
+│   └── mapping.npy         # Move to index mapping
+└── models/                  # Saved model weights
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Python 3.8+
-- CUDA-capable GPU (recommended for training)
+- CUDA-capable GPU (optional, but recommended for training)
 
 ### Installation
 
@@ -64,145 +60,98 @@ git clone https://github.com/ees4ykg/NeuralKnight-Chess.git
 cd NeuralKnight-Chess
 ```
 
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Usage
 
-#### Playing Against the AI
-
-Launch the interactive GUI to play against the trained model:
+#### Play Against the AI
 
 ```bash
 python play_chess_gui.py
 ```
 
-**Controls**:
-- Click on a piece to select it
-- Click on a highlighted square to move
-- You play as White, AI plays as Black
-- Pawns automatically promote to Queens
+- Click pieces to select and move them
+- You play White, AI plays Black
+- Pawns auto-promote to Queens
 
-#### Training Your Own Model
+#### Train Your Own Model
 
-1. **Prepare Training Data**: Place PGN files in the `raw_training_data/` directory
+1. Add PGN files to `raw_training_data/` directory
 
-2. **Preprocess the Data**:
+2. Preprocess the data:
 ```bash
 python data_preprocessing.py
 ```
-This will:
-- Parse PGN files
-- Convert board positions to 14×8×8 arrays
-- Create UCI move to integer mappings
-- Save processed data to `cleaned_data/`
 
-3. **Train the Model**:
+3. Train the model:
 ```bash
 python train.py
 ```
-Training progress will display:
-- Epoch number
-- Average loss
-- Training time per epoch
 
-4. **Test Predictions**:
+4. Test with command-line interface:
 ```bash
 python predict.py
 ```
-This runs an interactive console where you can play against the model using algebraic notation.
 
-## 📊 Dataset
+## 📊 Training Data
 
-For now the model is trained on **Lichess Elite database** games:
-- **Time Period**: June 2021 - November 2022
-- **Game Quality**: Elite-level players only
-- **Format**: PGN (Portable Game Notation)
-- **Total Positions**: Several million board positions
+Currently trained on Lichess Elite database games (June 2021 - November 2022). The dataset contains games from high-rated players in PGN format.
 
-You can adjust the training dataset size by modifying the `limit_of_games` parameter in `data_preprocessing.py`.
+To train on different data, modify the `limit_of_games` parameter in `data_preprocessing.py`.
 
-## 🔧 Technical Details
+## 🔧 How It Works
 
-### Board Representation
-The board state is encoded as a 14-channel tensor:
-```python
-Channel  0: White Pawns    Channel  6: Black Pawns
-Channel  1: White Knights  Channel  7: Black Knights
-Channel  2: White Bishops  Channel  8: Black Bishops
-Channel  3: White Rooks    Channel  9: Black Rooks
-Channel  4: White Queens   Channel 10: Black Queens
-Channel  5: White King     Channel 11: Black King
-Channel 12: Legal move destinations
-Channel 13: Turn indicator (1=White, 0=Black)
+### Board Encoding
+Each board position is represented as a 14×8×8 tensor:
+```
+Channels 0-5:   White pieces (P, N, B, R, Q, K)
+Channels 6-11:  Black pieces (p, n, b, r, q, k)
+Channel 12:     Legal move destinations
+Channel 13:     Turn indicator (1=White, 0=Black)
 ```
 
-### Move Prediction
-The model outputs logits for all possible UCI moves. The prediction system:
-1. Computes softmax probabilities over all moves
-2. Sorts moves by probability (highest first)
-3. Returns the highest-probability **legal** move
-4. This ensures the AI never makes illegal moves
+### Move Selection
+The model outputs probabilities for moves it has seen during training. At inference:
+1. Model predicts probability distribution over all learned moves
+2. Predictions are sorted by probability
+3. First legal move from the sorted list is selected
 
+This ensures the AI only makes valid moves according to chess rules.
 
+## ⚠️ Limitations
 
-## 🐛 Known Limitations
+- Model only knows moves it has seen in training data
+- No strategic planning or position evaluation
+- Performance depends heavily on training data quality
+- Can struggle with unusual positions or endgames
+- Not competitive with traditional chess engines
 
-- Model learns move patterns but lacks deep strategic understanding
-- Opening repertoire limited to training data
-- Endgame play may not be as strong as dedicated engines
-- No explicit evaluation function (unlike traditional engines)
-- Requires GPU for reasonable training time
+## 📝 What I Learned
 
-## 🤝 Contributing
-
-This is a personal project, but suggestions and improvements are welcome! Feel free to:
-- Open issues for bugs or feature requests
-- Submit pull requests
-- Share your training results
-
-## 📝 Future Improvements
-
-Potential enhancements:
-- [ ] Add reinforcement learning (self-play)
-- [ ] Implement value network for position evaluation
-- [ ] Model ensembling
-- [ ] Web-based interface
-- [ ] Move explanation/analysis
-- [ ] Add more diverse training data focused on models weaknesses
+This project helped me understand:
+- Converting game data into neural network inputs
+- Building and training CNNs with PyTorch
+- Working with the `python-chess` library
+- The difference between supervised learning and how actual strong chess engines work
 
 ## 📚 Dependencies
 
-- **PyTorch**: Deep learning framework
-- **python-chess**: Chess logic and move validation
-- **NumPy**: Numerical computations
-- **Pygame**: GUI rendering
-- **tqdm**: Progress bars for training
+- PyTorch - Neural network framework
+- python-chess - Chess logic and move validation  
+- NumPy - Array operations
+- Pygame - GUI
+- tqdm - Training progress bars
 
-See `requirements.txt` for complete list.
-
-## 📄 License
-
-This project is open source and available under the MIT License.
+See `requirements.txt` for versions.
 
 ## 🙏 Acknowledgments
 
-- **Lichess**: For providing free, high-quality chess game databases
-- **python-chess**: For the excellent chess library
-- **PyTorch**: For the deep learning framework
+- [Lichess](https://lichess.org/) for free access to game databases
+- [python-chess](https://python-chess.readthedocs.io/) library
+- PyTorch team
 
-## 📧 Contact
 
-For questions or feedback about this project, feel free to open an issue on GitHub.
-
----
-
-**Note**: This is an educational project demonstrating neural network applications in game AI. It is not intended to compete with traditional chess engines like Stockfish or AlphaZero, although maybe someday we will reach that level ;)
+*Note: This is an educational project demonstrating neural network applications in game AI. It is not intended to compete with traditional chess engines like Stockfish or AlphaZero, although maybe someday we will reach that level ;)*
