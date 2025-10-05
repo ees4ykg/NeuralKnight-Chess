@@ -8,4 +8,6 @@ __pycache__/
 *.pywz
 *.pyzw
 *.pyzwz
-training_data/
+raw_training_data/
+NeuralKnight-Key.pem
+cleaned_data/
