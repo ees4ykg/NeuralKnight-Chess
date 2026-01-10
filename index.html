@@ -20,7 +20,9 @@
         .subtitle { color: #888; margin-bottom: 20px; font-size: 0.9rem; }
         .game-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
         #board { display: grid; grid-template-columns: repeat(8, 60px); grid-template-rows: repeat(8, 60px); border: 3px solid #0f3460; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .square { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; user-select: none; transition: background 0.15s; }
+        .square { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 46px; cursor: pointer; user-select: none; transition: background 0.15s; }
+        .white-piece { color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000; }
+        .black-piece { color: #000; text-shadow: none; }
         .light { background: #eeeed2; }
         .dark { background: #769656; }
         .square.selected { background: #baca44 !important; }
@@ -83,7 +85,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.14.0/ort.min.js"></script>
     <script>
-        const PIECES = { 'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙', 'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟' };
+        const PIECES = { 'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙', 'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟︎' };
         const FILES = 'abcdefgh';
         const INIT_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
         const pieceChannels = { 'P': 0, 'N': 1, 'B': 2, 'R': 3, 'Q': 4, 'K': 5, 'p': 6, 'n': 7, 'b': 8, 'r': 9, 'q': 10, 'k': 11 };
@@ -304,7 +306,7 @@
                 if (lastMove && ((dr === lastMove[0][0] && dc === lastMove[0][1]) || (dr === lastMove[1][0] && dc === lastMove[1][1]))) sq.classList.add('last-move');
                 if (selected && selected[0] === dr && selected[1] === dc) sq.classList.add('selected');
                 if (legalMoves.some(m => m[0] === dr && m[1] === dc)) sq.classList.add('legal');
-                if (board[dr][dc]) sq.textContent = PIECES[board[dr][dc]];
+                if (board[dr][dc]) { sq.textContent = PIECES[board[dr][dc]]; sq.classList.add(isWhite(board[dr][dc]) ? 'white-piece' : 'black-piece'); }
                 sq.addEventListener('click', () => handleClick(dr, dc));
                 boardEl.appendChild(sq);
             }
