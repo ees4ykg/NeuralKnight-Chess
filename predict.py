@@ -1,7 +1,7 @@
 from chess import Board, pgn
 from data_preprocessing import board_state_to_array
 import torch
-from torch_model import NeuralKnightChessModel
+from torch_model import NeuralKnightChessModel2
 import pickle
 import numpy as np
 
@@ -21,8 +21,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f'Using device: {device}')
 
 # Load the model
-model = NeuralKnightChessModel(num_classes=len(move_to_int))
-model.load_state_dict(torch.load("models/10_epochs_model.pth"))
+model = NeuralKnightChessModel2(num_classes=len(move_to_int))
+model.load_state_dict(torch.load("models/10_epochs_model2.pth"))
 model.to(device)
 model.eval()  # Set the model to evaluation mode (it may be reductant)
 

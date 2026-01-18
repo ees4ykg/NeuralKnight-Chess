@@ -25,7 +25,7 @@ print(y_tensor.shape)  # torch.Size([num_samples])
 
 # Create Dataset and DataLoader
 from torch_dataset import NeuralKnightChessDataset
-from torch_model import NeuralKnightChessModel
+from torch_model import NeuralKnightChessModel2
 
 dataset = NeuralKnightChessDataset(X_tensor, y_tensor)
 dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
@@ -35,14 +35,14 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f'Using device: {device}')
 
 # Model Initialization
-model = NeuralKnightChessModel(num_classes=len(y_tensor.unique())).to(device)
+model = NeuralKnightChessModel2(num_classes=len(y_tensor.unique())).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
 
 
 # Train the model
-num_epochs = 100
+num_epochs = 10
 for epoch in range(num_epochs):
     start_time = time.time()
     model.train()
@@ -69,5 +69,5 @@ for epoch in range(num_epochs):
     print(f'Epoch {epoch + 1 + 50}/{num_epochs + 1 + 50}, Loss: {running_loss / len(dataloader):.4f}, Time: {minutes}m{seconds}s')
 
 # Save the model
-torch.save(model.state_dict(), "models/100_epochs_model2.pth")
+torch.save(model.state_dict(), "models/10_epochs_model2.pth")
 
