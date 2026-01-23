@@ -42,7 +42,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
 
 # Train the model
-num_epochs = 10
+num_epochs = 100
 for epoch in range(num_epochs):
     start_time = time.time()
     model.train()
@@ -66,7 +66,7 @@ for epoch in range(num_epochs):
     epoch_time = end_time - start_time
     minutes: int = int(epoch_time // 60)
     seconds: int = int(epoch_time) - minutes * 60
-    print(f'Epoch {epoch + 1 + 50}/{num_epochs + 1 + 50}, Loss: {running_loss / len(dataloader):.4f}, Time: {minutes}m{seconds}s')
+    print(f'Epoch {epoch + 1}/{num_epochs}, Loss: {running_loss / len(dataloader):.4f}, Time: {minutes}m{seconds}s')
 
 # Save the model
 torch.save(model.state_dict(), "models/10_epochs_model2.pth")

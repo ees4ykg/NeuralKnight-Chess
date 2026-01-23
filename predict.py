@@ -22,7 +22,7 @@ print(f'Using device: {device}')
 
 # Load the model
 model = NeuralKnightChessModel2(num_classes=len(move_to_int))
-model.load_state_dict(torch.load("models/10_epochs_model2.pth"))
+model.load_state_dict(torch.load("models/100_epochs_model2.pth"))
 model.to(device)
 model.eval()  # Set the model to evaluation mode (it may be reductant)
 

@@ -4,7 +4,7 @@ import pickle
 from torch_model import NeuralKnightChessModel2
 
 # === CONFIGURE THESE ===
-MODEL_PATH = "models/10_epochs_model2.pth"  # Path to your trained .pt file
+MODEL_PATH = "models/100_epochs_model2.pth"  # Path to your trained .pt file
 MAPPING_PATH = "models/model1_heavy_move_to_idx"  # Path to your move mapping pickle file
 # =======================
 
@@ -43,7 +43,7 @@ torch.onnx.export(
     opset_version=11
 )
 print("Exported model.onnx")
-print("\n✅ Done! Push these files to your repo:")
+print("\nPush these files to repo:")
 print("   - model.onnx")
 print("   - idx_to_move.json")
 print("   - index.html")
