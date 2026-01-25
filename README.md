@@ -2,11 +2,11 @@
 
 A chess AI built with a convolutional neural network that learns move patterns from elite-level Lichess games. Includes a simple GUI for playing against the trained model.
 
-## 🎯 Overview
+##  Overview
 
 This is a learning project exploring how neural networks can learn chess through supervised learning on game data. The model uses a basic CNN architecture to predict moves based on board positions, trained on games from high-rated Lichess players.
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Neural Network Design
 - **Input**: 14-channel 8×8 board representation
@@ -27,7 +27,7 @@ This is a learning project exploring how neural networks can learn chess through
 - **Batch Size**: 64
 - **Gradient Clipping**: Max norm 1.0
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 NeuralKnight-Chess/
@@ -46,7 +46,7 @@ NeuralKnight-Chess/
 └── models/                  # Saved model weights
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Python 3.8+
@@ -96,13 +96,13 @@ python train.py
 python predict.py
 ```
 
-## 📊 Training Data
+##  Training Data
 
 Currently trained on Lichess Elite database games (June 2021 - November 2022). The dataset contains games from high-rated players in PGN format.
 
 To train on different data, modify the `limit_of_games` parameter in `data_preprocessing.py`.
 
-## 🔧 How It Works
+##  How It Works
 
 ### Board Encoding
 Each board position is represented as a 14×8×8 tensor:
@@ -121,7 +121,7 @@ The model outputs probabilities for moves it has seen during training. At infere
 
 This ensures the AI only makes valid moves according to chess rules.
 
-## ⚠️ Limitations
+##  Limitations
 
 - Model only knows moves it has seen in training data
 - No strategic planning or position evaluation
@@ -129,7 +129,7 @@ This ensures the AI only makes valid moves according to chess rules.
 - Can struggle with unusual positions or endgames
 - Not competitive with traditional chess engines
 
-## 📝 What I Learned
+##  What I Learned
 
 This project helped me understand:
 - Converting game data into neural network inputs
@@ -137,7 +137,7 @@ This project helped me understand:
 - Working with the `python-chess` library
 - The difference between supervised learning and how actual strong chess engines work
 
-## 📚 Dependencies
+##  Dependencies
 
 - PyTorch - Neural network framework
 - python-chess - Chess logic and move validation  
@@ -147,7 +147,7 @@ This project helped me understand:
 
 See `requirements.txt` for versions.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [Lichess](https://lichess.org/) for free access to game databases
 - [python-chess](https://python-chess.readthedocs.io/) library
