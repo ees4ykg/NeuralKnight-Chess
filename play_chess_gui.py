@@ -63,29 +63,57 @@ def draw_rook(surface, x, y, size, is_white):
     pygame.draw.rect(surface, OUTLINE, (center_x - size // 4, center_y + size // 6, size // 2, size // 10), 2)
 
 
+
 def draw_knight(surface, x, y, size, is_white):
-    """Draw a knight piece"""
+    """Draw a knight piece - horse head shape"""
     color = LIGHT_PIECE if is_white else DARK_PIECE
     center_x = x + size // 2
     center_y = y + size // 2
     
-    # Horse head (simplified L shape)
-    points = [
-        (center_x - size // 8, center_y + size // 6),
-        (center_x - size // 8, center_y - size // 12),
-        (center_x, center_y - size // 3),
-        (center_x + size // 6, center_y - size // 6),
-        (center_x + size // 6, center_y + size // 6)
+    # Horse head profile (more recognizable shape)
+    head_points = [
+        # Neck/back
+        (center_x - size // 5, center_y + size // 5),
+        (center_x - size // 5, center_y - size // 10),
+        # Top of head / ears
+        (center_x - size // 6, center_y - size // 4),
+        (center_x - size // 10, center_y - size // 3),
+        (center_x + size // 20, center_y - size // 4),
+        # Forehead
+        (center_x + size // 8, center_y - size // 5),
+        # Nose
+        (center_x + size // 4, center_y - size // 6),
+        (center_x + size // 4, center_y),
+        # Mouth/chin
+        (center_x + size // 8, center_y + size // 10),
+        # Neck front
+        (center_x + size // 10, center_y + size // 5),
     ]
-    pygame.draw.polygon(surface, color, points)
-    pygame.draw.polygon(surface, OUTLINE, points, 2)
+    pygame.draw.polygon(surface, color, head_points)
+    pygame.draw.polygon(surface, OUTLINE, head_points, 2)
+    
+    # Ear
+    ear_points = [
+        (center_x - size // 10, center_y - size // 3),
+        (center_x - size // 14, center_y - size // 2.3),
+        (center_x + size // 20, center_y - size // 3),
+    ]
+    pygame.draw.polygon(surface, color, ear_points)
+    pygame.draw.polygon(surface, OUTLINE, ear_points, 2)
     
     # Eye
-    pygame.draw.circle(surface, OUTLINE, (center_x + size // 12, center_y - size // 8), 2)
+    eye_x = center_x + size // 16
+    eye_y = center_y - size // 7
+    pygame.draw.circle(surface, OUTLINE, (eye_x, eye_y), size // 20)
+    
+    # Nostril
+    nostril_x = center_x + size // 5
+    nostril_y = center_y - size // 20
+    pygame.draw.circle(surface, OUTLINE, (nostril_x, nostril_y), size // 30)
     
     # Base
-    pygame.draw.rect(surface, color, (center_x - size // 4, center_y + size // 6, size // 2, size // 10))
-    pygame.draw.rect(surface, OUTLINE, (center_x - size // 4, center_y + size // 6, size // 2, size // 10), 2)
+    pygame.draw.rect(surface, color, (center_x - size // 4, center_y + size // 5, size // 2, size // 10))
+    pygame.draw.rect(surface, OUTLINE, (center_x - size // 4, center_y + size // 5, size // 2, size // 10), 2)
 
 
 def draw_bishop(surface, x, y, size, is_white):

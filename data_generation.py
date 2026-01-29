@@ -6,6 +6,7 @@ import chess.engine
 import random
 import h5py
 import numpy as np
+import pickle
 from data_preprocessing import board_state_to_array
 
 start = time.time()
@@ -186,7 +187,7 @@ def generate_append_many_endgames(white_pieces, black_pieces, winning_colour,dep
     HDF5_file_size = append_to_hdf5("synthetic_data/stockfish_generated_data.h5", x_batch, y_batch)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and 1==2:
 
     start = time.time()
 
@@ -292,4 +293,32 @@ if __name__ == "__main__":
     end = time.time()
     print(f"Took {end - start:.2f} seconds")
     
+def build_move_mapping_from_hdf5(hdf5_path, output_path):
+    """
+    Reads all moves from the HDF5 file and creates a move_to_idx mapping.
+    Args:
+        hdf5_path: Path to the HDF5 file
+        output_path: Path to save the pickle file
+    """
+    print("Building move mapping from HDF5...")
+    
+    with h5py.File(hdf5_path, 'r') as f:
+        moves = f['moves'][:]
+    
+    # Decode bytes to strings and get unique moves
+    unique_moves = sorted(set(m.decode('utf-8') for m in moves))
+    
+    # Create mapping
+    move_to_idx = {move: idx for idx, move in enumerate(unique_moves)}
+    
+    print(f"Found {len(move_to_idx)} unique moves")
+    
+    # Save to pickle
+    with open(output_path, 'wb') as f:
+        pickle.dump(move_to_idx, f)
+    
+    print(f"Saved mapping to {output_path}")
+    return move_to_idx
 
+
+build_move_mapping_from_hdf5("synthetic_data/stockfish_generated_data.h5", "models/model3_move_to_idx")

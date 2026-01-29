@@ -14,7 +14,7 @@ def input_to_tensor(board: Board):
 
 #load the model and the move to idx mapping
 import pickle
-with open("models/model1_heavy_move_to_idx", "rb") as file:
+with open("models/model3_move_to_idx", "rb") as file:
     move_to_int = pickle.load(file)
 # Check for GPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -22,7 +22,7 @@ print(f'Using device: {device}')
 
 # Load the model
 model = NeuralKnightChessModel2(num_classes=len(move_to_int))
-model.load_state_dict(torch.load("models/100_epochs_model2.pth"))
+model.load_state_dict(torch.load("models/100_epochs_model3.pth"))
 model.to(device)
 model.eval()  # Set the model to evaluation mode (it may be reductant)
 
