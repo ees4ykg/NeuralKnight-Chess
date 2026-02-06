@@ -1,25 +1,13 @@
 # NeuralKnight-Chess ♟️
 
-A chess AI built with a convolutional neural network that learns move patterns from elite-level Lichess games. Includes a simple GUI for playing against the trained model.
+A chess AI built with a convolutional neural network that learns move patterns from elite-level Lichess games.
 
 ##  Overview
 
-This is a learning project exploring how neural networks can learn chess through supervised learning on game data. The model uses a basic CNN architecture to predict moves based on board positions, trained on games from high-rated Lichess players.
+This is a learning project exploring how neural networks can learn chess through supervised learning on game data. The model uses a basic CNN architecture to predict moves based on board positions, trained on games from high-rated Lichess players and synthetic data.
 
 ##  Architecture
 
-### Neural Network Design
-- **Input**: 14-channel 8×8 board representation
-  - Channels 0-11: One-hot encoded piece positions (6 white + 6 black piece types)
-  - Channel 12: Legal move destinations
-  - Channel 13: Current turn (1 for white, 0 for black)
-- **Architecture**: 
-  - Conv2D layer (14→64 channels, 3×3 kernel, ReLU)
-  - Conv2D layer (64→128 channels, 3×3 kernel, ReLU)
-  - Flatten
-  - Fully connected layer (8192→256, ReLU)
-  - Output layer (256→num_moves)
-- **Output**: Logits for all possible UCI moves seen in training
 
 ### Training Setup
 - **Loss Function**: Cross-Entropy Loss
@@ -31,70 +19,17 @@ This is a learning project exploring how neural networks can learn chess through
 
 ```
 NeuralKnight-Chess/
-├── data_preprocessing.py    # Converts PGN files to numpy arrays
-├── torch_dataset.py         # PyTorch Dataset wrapper
-├── torch_model.py           # CNN model definition
-├── train.py                 # Training script
-├── predict.py               # Move prediction with trained model
-├── play_chess_gui.py        # Pygame GUI for playing against AI
-├── requirements.txt         # Dependencies
-├── raw_training_data/       # PGN files (not included in repo)
-├── cleaned_data/            # Preprocessed training data
-│   ├── x_data.npy          # Board states
-│   ├── y_data.npy          # Move labels
-│   └── mapping.npy         # Move to index mapping
-└── models/                  # Saved model weights
+├── data_preprocessing.py   # PGN → numpy conversion
+├── torch_model.py          # CNN with residual blocks
+├── train.py                # Training script
+├── play_chess_gui.py       # GUI to play against AI
+└── models/                 # Saved weights
 ```
 
-##  Getting Started
-
-### Prerequisites
-- Python 3.8+
-- CUDA-capable GPU (optional, but recommended for training)
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/ees4ykg/NeuralKnight-Chess.git
-cd NeuralKnight-Chess
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
 
 ### Usage
 
-#### Play Against the AI
-
-```bash
-python play_chess_gui.py
-```
-
-- Click pieces to select and move them
-- You play White, AI plays Black
-- Pawns auto-promote to Queens
-
-#### Train Your Own Model
-
-1. Add PGN files to `raw_training_data/` directory
-
-2. Preprocess the data:
-```bash
-python data_preprocessing.py
-```
-
-3. Train the model:
-```bash
-python train.py
-```
-
-4. Test with command-line interface:
-```bash
-python predict.py
-```
+#### online UI for playing against the engine coming very soon
 
 ##  Training Data
 
@@ -128,30 +63,6 @@ This ensures the AI only makes valid moves according to chess rules.
 - Performance depends heavily on training data quality
 - Can struggle with unusual positions or endgames
 - Not competitive with traditional chess engines
-
-##  What I Learned
-
-This project helped me understand:
-- Converting game data into neural network inputs
-- Building and training CNNs with PyTorch
-- Working with the `python-chess` library
-- The difference between supervised learning and how actual strong chess engines work
-
-##  Dependencies
-
-- PyTorch - Neural network framework
-- python-chess - Chess logic and move validation  
-- NumPy - Array operations
-- Pygame - GUI
-- tqdm - Training progress bars
-
-See `requirements.txt` for versions.
-
-##  Acknowledgments
-
-- [Lichess](https://lichess.org/) for free access to game databases
-- [python-chess](https://python-chess.readthedocs.io/) library
-- PyTorch team
 
 
 *Note: This is an educational project demonstrating neural network applications in game AI. It is not intended to compete with traditional chess engines like Stockfish or AlphaZero, although maybe someday we will reach that level ;)*
