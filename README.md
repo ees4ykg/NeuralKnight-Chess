@@ -35,6 +35,8 @@ NeuralKnight is deployed online, so you can play against the engine in your brow
 
 ![NeuralKnight Chess in the browser](docs/screenshot.png)
 
+*Disclaimer: the web interface was built with AI assistance, as its only purpose is to showcase the chess engine.*
+
 ##  Training Data
 
 Currently trained on Lichess Elite database games (June 2021 - November 2022). The dataset contains games from high-rated players in PGN format.
