@@ -27,9 +27,13 @@ NeuralKnight-Chess/
 ```
 
 
-### Usage
+##  Deployment
 
-#### online UI for playing against the engine coming very soon
+NeuralKnight is deployed online, so you can play against the engine in your browser with no installation needed:
+
+**[▶ Play NeuralKnight in your browser](https://ees4ykg.github.io/NeuralKnight-Chess/)**
+
+![NeuralKnight Chess in the browser](docs/screenshot.png)
 
 ##  Training Data
 
