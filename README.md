@@ -31,7 +31,7 @@ NeuralKnight-Chess/
 
 NeuralKnight is deployed online, so you can play against the engine in your browser with no installation needed:
 
-**[▶ Play NeuralKnight in your browser](https://ees4ykg.github.io/NeuralKnight-Chess/)**
+**[Play NeuralKnight in your browser](https://ees4ykg.github.io/NeuralKnight-Chess/)**
 
 ![NeuralKnight Chess in the browser](docs/screenshot.png)
 
